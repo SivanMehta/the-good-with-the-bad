@@ -5,15 +5,14 @@ import {
   Route,
   Link
 } from 'react-router-dom'
+import { browserHistory } from 'react-router'
 
 import configureStore from './configure-redux/configure-store'
 import {Provider} from 'react-redux'
-
 const store = configureStore()
 
-
 const App = () => (
-  <Router>
+  <Router history={browserHistory}>
     <div>
       <h2>The Good with the Bad</h2>
       <ul>

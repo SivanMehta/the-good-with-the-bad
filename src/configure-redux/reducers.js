@@ -1,4 +1,5 @@
 import * as types from './action-types'
+import {combineReducers} from 'redux'
 
 const pathReducer = (path = '', action) => {
   // change this to use statement not pro and index
@@ -9,8 +10,6 @@ const pathReducer = (path = '', action) => {
       return path
   }
 }
-
-import {combineReducers} from 'redux'
 
 const rootReducer = combineReducers({
   pathReducer,
