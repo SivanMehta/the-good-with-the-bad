@@ -6,6 +6,12 @@ import {
   Link
 } from 'react-router-dom'
 
+import configureStore from './configure-redux/configure-store'
+import {Provider} from 'react-redux'
+
+const store = configureStore()
+
+
 const App = () => (
   <Router>
     <div>
