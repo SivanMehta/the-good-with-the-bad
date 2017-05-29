@@ -11,6 +11,8 @@ import configureStore from './configure-redux/configure-store'
 import {Provider} from 'react-redux'
 const store = configureStore()
 
+import Argument from './argument'
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -36,18 +38,12 @@ class App extends React.Component {
           <input ref = 'issue' onChange = { this.search }></input>
           <Link to={ "/" + this.state.issue }>Go</Link>
 
-          <Route path="/:id" component={Child}/>
+          <Route path="/:id" component={Argument}/>
         </div>
       </Router>
     )
   }
 }
-
-const Child = ({ match }) => (
-  <div>
-    <h3>ID: {match.params.id}</h3>
-  </div>
-)
 
 ReactDOM.render(
   <App />,
