@@ -29,7 +29,7 @@ export default class Navigation extends React.Component {
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">The Good with the Bad</a>
+            <Link to = '/'>The Good with the Bad</Link>
           </Navbar.Brand>
         </Navbar.Header>
         <Navbar.Collapse>
