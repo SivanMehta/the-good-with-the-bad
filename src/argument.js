@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 export default class Argument extends React.Component {
   constructor(props) {
@@ -9,7 +8,7 @@ export default class Argument extends React.Component {
   render() {
     return (
       <h3>
-        ID: { this.props.match.params.id}
+        ID: safgsdfg
       </h3>
     )
   }
