@@ -44,7 +44,7 @@ export default class Navigation extends React.Component {
 
               </FormGroup>
               {' '}
-              <Link to = { '/' + this.state.target }>
+              <Link to = { '/argument/' + this.state.target }>
                 <Button type = 'submit'>
                   Search
                 </Button>

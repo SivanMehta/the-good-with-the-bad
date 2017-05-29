@@ -14,7 +14,7 @@ render((
       <Navigation />
       <div className = 'container'>
         <Route exact path = "/" component = { About } />
-        <Route path = "/:id" component = { Argument } />
+        <Route path = "/argument/:id" component = { Argument } />
       </div>
     </div>
   </Router>
