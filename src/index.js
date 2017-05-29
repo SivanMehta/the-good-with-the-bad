@@ -11,21 +11,37 @@ import configureStore from './configure-redux/configure-store'
 import {Provider} from 'react-redux'
 const store = configureStore()
 
-const App = () => (
-  <Router history={browserHistory}>
-    <div>
-      <h2>The Good with the Bad</h2>
-      <ul>
-        <li><Link to="/netflix">Netflix</Link></li>
-        <li><Link to="/zillow-group">Zillow Group</Link></li>
-        <li><Link to="/yahoo">Yahoo</Link></li>
-        <li><Link to="/modus-create">Modus Create</Link></li>
-      </ul>
+class App extends React.Component {
+  constructor(props) {
+    super(props)
 
-      <Route path="/:id" component={Child}/>
-    </div>
-  </Router>
-)
+    this.state = {
+      issue: 'lol'
+    }
+
+    this.search = this.search.bind(this)
+  }
+
+
+  search(e) {
+    this.setState({issue: e.target.value})
+  }
+
+  render() {
+    return(
+      <Router history={browserHistory}>
+        <div>
+          <h2>The Good with the Bad</h2>
+          <p>Search for an issue:</p>
+          <input ref = 'issue' onChange = { this.search }></input>
+          <Link to={ "/" + this.state.issue }>Go</Link>
+
+          <Route path="/:id" component={Child}/>
+        </div>
+      </Router>
+    )
+  }
+}
 
 const Child = ({ match }) => (
   <div>
