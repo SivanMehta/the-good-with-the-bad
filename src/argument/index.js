@@ -16,24 +16,21 @@ export default class Argument extends React.Component {
 
   componentDidMount() {
     // simulate a slow server by delaying by a half second
-    setTimeout(this.fetchArgument, 1000)
+    this.fetchArgument(500)
   }
 
   fetchArgument() {
-    // would ideally hit the server and change the state
-    // accordingly, but we're not there yet
-    // We also could potentially have more columns like
-    // Alternatives, (Worthwhile)ness, etc...
-    this.setState({ data: ['Pros', 'Cons'] })
-
+    fetch('/api/' + this.props.match.params.id)
+      .then(res => res.json())
+      .then(data => this.setState({ data: data }))
   }
 
   renderCategories() {
     // the number of categories ideally would be something from 2 - 4
     // so we can make a pretty number of columns.
+    const colSize = 12 / Object.keys(this.state.data).length
 
-    const colSize = 12 / this.state.data.length
-    return this.state.data ? this.state.data.map(cat => (
+    return this.state.data ? Object.keys(this.state.data).map(cat => (
       <Col xs = { 12 } sm = { colSize } key = { cat + '-points' }>
         <Panel header = { cat } key = { cat + '-title' }>
           Panel content
@@ -54,7 +51,7 @@ export default class Argument extends React.Component {
   render() {
     return (
       <div>
-        <h1> { this.props.match.params.id} </h1>
+        <h1> { this.props.match.params.id } </h1>
         <Row>
           {this.state.data ? this.renderCategories() : this.renderSpinner()}
         </Row>
