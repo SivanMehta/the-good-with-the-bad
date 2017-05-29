@@ -10,7 +10,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'public')))
 function newPoints(points) {
   return "a".repeat(points).split('a').map(_ => ({
     text: faker.hacker.phrase(),
-    value: Math.round(Math.random() * 100)
+    value: Math.round(Math.random() * 100),
     userName: faker.internet.userName()
   }))
 }

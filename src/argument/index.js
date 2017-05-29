@@ -1,5 +1,7 @@
 import React from 'react'
-import { Col, Row, Panel } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
+
+import PointList from './list-of-points'
 
 export default class Argument extends React.Component {
   constructor(props) {
@@ -32,15 +34,14 @@ export default class Argument extends React.Component {
 
     return this.state.data ? Object.keys(this.state.data).map(cat => (
       <Col xs = { 12 } sm = { colSize } key = { cat + '-points' }>
-        <Panel header = { cat } key = { cat + '-title' }>
-          Panel content
-        </Panel>
+        <PointList title = { cat }
+                   points = { this.state.data[cat] }
+                   key = { cat + '-title' } />
       </Col>
     )) : ''
   }
 
   renderSpinner() {
-
     return (
       <p className = 'text-center'>
         Fetching data... <i className="fa fa-refresh fa-spin fa-fw"></i>
