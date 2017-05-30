@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col, Row, Glyphicon } from 'react-bootstrap'
 
 import PointList from './list-of-points'
 
@@ -8,15 +8,22 @@ export default class Argument extends React.Component {
     super(props)
 
     this.state = {
-      data: false
+      data: false,
+      favorite: false
     }
 
     this.renderCategories = this.renderCategories.bind(this)
     this.fetchArgument = this.fetchArgument.bind(this)
     this.renderSpinner = this.renderSpinner.bind(this)
+    this.renderSpinner = this.renderSpinner.bind(this)
   }
 
   componentDidMount() {
+    // simulate a slow server by delaying by a half second
+    setTimeout(this.fetchArgument, 500)
+  }
+
+  componentWillReceiveProps() {
     // simulate a slow server by delaying by a half second
     setTimeout(this.fetchArgument, 500)
   }
@@ -53,7 +60,13 @@ export default class Argument extends React.Component {
   render() {
     return (
       <div>
-        <h1> { this.props.match.params.id } </h1>
+        <h1>
+          <Glyphicon
+            glyph = {this.state.favorite ? 'heart' : 'heart-empty'}
+            onClick = {() => this.setState({favorite: !this.state.favorite}) } />
+          { ' ' }
+          { this.props.match.params.id }
+        </h1>
         <Row>
           {this.state.data ? this.renderCategories() : this.renderSpinner()}
         </Row>
