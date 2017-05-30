@@ -18,7 +18,7 @@ export default class Argument extends React.Component {
 
   componentDidMount() {
     // simulate a slow server by delaying by a half second
-    this.fetchArgument(500)
+    setTimeout(this.fetchArgument, 500)
   }
 
   fetchArgument() {
@@ -35,6 +35,7 @@ export default class Argument extends React.Component {
     return this.state.data ? Object.keys(this.state.data).map(cat => (
       <Col xs = { 12 } sm = { colSize } key = { cat + '-points' }>
         <PointList title = { cat }
+                   arg = { this.props.match.params.id }
                    points = { this.state.data[cat] }
                    key = { cat + '-title' } />
       </Col>
