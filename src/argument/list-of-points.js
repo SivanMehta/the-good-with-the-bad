@@ -1,7 +1,7 @@
 import React from 'react'
 import { ListGroup, ListGroupItem,
-         Panel, Label }
-from 'react-bootstrap'
+         Panel, Badge } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 export default class PointList extends React.Component {
   constructor(props) {
@@ -11,10 +11,18 @@ export default class PointList extends React.Component {
   }
 
   renderPoints() {
+    const style = {
+      width: "100%",
+      "white-space": "nowrap",
+      overflow: "hidden",
+      "text-overflow": "ellipsis"
+    }
     const renderPoint = (point, i) => (
       <ListGroupItem href = "#" key = { i + point.text.slice(0, 3) }>
-        <Label style = {{float: 'right'}}> { point.value } </Label>
-        <p>{ point.text }</p>
+        <p style = { style }>{ point.text }</p>
+        <Link to = { "/argument/" + this.props.arg + "/" + point.text } >
+          <Badge pullRight> { point.value } </Badge>
+        </Link>
         <p>- { point.userName }</p>
       </ListGroupItem>
     )

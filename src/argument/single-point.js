@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Glyphicon } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 export default class Point extends React.Component {
@@ -51,9 +51,13 @@ export default class Point extends React.Component {
   render() {
     return (
       <div>
-        <Link to = { '/argument/' + this.props.match.params.point }>
-          <h1> { this.props.match.params.point } </h1>
-        </Link>
+        <h1>
+          <Link to = { '/argument/' + this.props.match.params.id }>
+            <Glyphicon glyph='share' style = {{transform: 'scaleX(-1)'}}/>
+           </Link>
+           { ' ' }
+           { this.props.match.params.id }
+         </h1>
         { this.state.data ? this.renderPoint() : this.renderSpinner() }
       </div>
     )

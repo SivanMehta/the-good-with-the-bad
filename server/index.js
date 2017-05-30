@@ -29,6 +29,8 @@ app.get('/api/:argument', (req, res) => {
 })
 
 app.get('/api/:argument/:point', (req, res) => {
+  var point = fakePoint()
+  point.text = req.params.point
   res.send(fakePoint())
 })
 
