@@ -27,7 +27,7 @@ export default class Chatroom extends React.Component {
     // Listen for message
     this.socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data)
-      this.setState({history: this.state.history.concat(data)})
+      this.setState({ history: data })
     })
   }
 
@@ -41,10 +41,9 @@ export default class Chatroom extends React.Component {
 
   renderChat() {
     var history = this.state.history.map((m, i) => {
-      const reverse = this.state.history[this.state.history.length - i - 1]
       return (
-        <ListGroupItem key = { 'message-' + i } header = {reverse.message}>
-          - { reverse.from }
+        <ListGroupItem key = { 'message-' + i } header = {m.message}>
+          - { m.from }
         </ListGroupItem>
       )
     })
