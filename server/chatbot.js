@@ -9,7 +9,10 @@ exports.init = (cb) => {
     })
     var i = 1
     setInterval(() => {
-      ws.send(i++)
+      ws.send(JSON.stringify({
+        message: i++,
+        from: "Chatbot"
+      }))
     }, 1000)
   })
 
