@@ -34,9 +34,12 @@ app.get('/api/:argument/:point', (req, res) => {
   res.send(fakePoint())
 })
 
+
 // render the rest of the application with client-side routing
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '..', 'public', 'index.html'))
 })
 
-app.listen(8080)
+require('./chatbot').init(() => {
+  app.listen(8080, () => console.log('server started on port 8080!'))
+})
