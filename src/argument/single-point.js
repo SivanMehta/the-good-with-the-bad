@@ -2,6 +2,8 @@ import React from 'react'
 import { Glyphicon } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
+import Chatroom from './chatroom'
+
 export default class Point extends React.Component {
   constructor(props) {
     super(props)
@@ -59,6 +61,7 @@ export default class Point extends React.Component {
            { this.props.match.params.id }
          </h1>
         { this.state.data ? this.renderPoint() : this.renderSpinner() }
+        <Chatroom room = { this.props.match.params } />
       </div>
     )
   }

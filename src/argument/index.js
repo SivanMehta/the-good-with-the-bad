@@ -15,7 +15,6 @@ export default class Argument extends React.Component {
     this.renderCategories = this.renderCategories.bind(this)
     this.fetchArgument = this.fetchArgument.bind(this)
     this.renderSpinner = this.renderSpinner.bind(this)
-    this.renderSpinner = this.renderSpinner.bind(this)
   }
 
   componentDidMount() {
