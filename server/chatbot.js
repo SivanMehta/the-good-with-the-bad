@@ -4,17 +4,16 @@ var wss = new WebSocketServer({ port: 8081 })
 exports.init = (cb) => {
   wss.on('connection', (ws) => {
     var messages = []
-
-    ws.on('message', (message) => {
-      console.log('received: %s', message)
-    })
-
     var i = 1
-    setInterval(() => {
-      messages.unshift({ message: i++, from: "Chatbot" })
+
+    function changeState(message = i++, from = "Chatbot") {
+      messages.unshift({message: message, from: from})
       messages = messages.slice(0, 10)
       ws.send(JSON.stringify(messages))
-    }, 1000)
+    }
+
+    ws.on('message', (message) => { changeState(message, "Browser") })
+    setInterval(changeState, 2000)
   })
 
   cb()

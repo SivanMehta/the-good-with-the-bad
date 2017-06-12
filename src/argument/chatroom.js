@@ -1,5 +1,6 @@
 import React from 'react'
-import { ListGroup, ListGroupItem, FormControl } from 'react-bootstrap'
+import { ListGroup, ListGroupItem,
+         FormControl, Button } from 'react-bootstrap'
 
 export default class Chatroom extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ export default class Chatroom extends React.Component {
 
     this.renderSpinner = this.renderSpinner.bind(this)
     this.renderChat = this.renderChat.bind(this)
+    this.sendMessage = this.sendMessage.bind(this)
   }
 
   componentDidMount() {
@@ -39,6 +41,12 @@ export default class Chatroom extends React.Component {
     )
   }
 
+  sendMessage(e) {
+    e.preventDefault()
+    this.socket.send(this.state.message)
+    this.setState({message: ""})
+  }
+
   renderChat() {
     var history = this.state.history.map((m, i) => {
       return (
@@ -49,12 +57,15 @@ export default class Chatroom extends React.Component {
     })
     return (
       <div>
-        <form onSubmit = {e => e.preventDefault()}>
+        <form onSubmit = { this.sendMessage }>
           <FormControl
             type = "text"
             value = {this.state.message}
             onChange = { e => this.setState({message: e.target.value}) }
             placeholder = "Talk about it" />
+          <Button type = 'submit'>
+            Send
+          </Button>
         </form>
         <ListGroup>{ history }</ListGroup>
       </div>
