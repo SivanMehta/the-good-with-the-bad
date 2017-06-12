@@ -18,17 +18,17 @@ export default class PointList extends React.Component {
       "text-overflow": "ellipsis"
     }
     const renderPoint = (point, i) => (
-      <ListGroupItem href = "#" key = { i + point.text.slice(0, 3) }>
-        <p style = { style }>{ point.text }</p>
-        <Link to = { "/argument/" + this.props.arg + "/" + point.text } >
-          <Badge pullRight> { point.value } </Badge>
+      <ListGroupItem href = "#" key = { i + point.Text.slice(0, 3) }>
+        <p style = { style }>{ point.Text }</p>
+        <Link to = { "/argument/" + this.props.arg + "/" + point.Text } >
+          <Badge pullRight> { point.Value } </Badge>
         </Link>
-        <p>- { point.userName }</p>
+        <p>- { point.UserName }</p>
       </ListGroupItem>
     )
 
     return this.props.points
-           .sort((b, a) => a.value - b.value)
+           .sort((b, a) => a.Value - b.Value)
            .map(renderPoint)
   }
 

@@ -33,9 +33,9 @@ export default class Point extends React.Component {
     return(
       <div>
         <blockquote className="blockquote">
-          <p> { this.state.data.text } </p>
+          <p> { this.state.data.Text } </p>
           <footer className="blockquote-footer">
-            { this.state.data.userName}
+            { this.state.data.UserName}
           </footer>
         </blockquote>
         <Chatroom room = { this.props.match.params } />
