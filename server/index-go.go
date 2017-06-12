@@ -18,9 +18,9 @@ import (
 )
 
 type Point struct {
-  text string
-  value int
-  userName string
+  Text string
+  Value int
+  UserName string
 }
 
 type Arg struct {
@@ -51,24 +51,26 @@ func main() {
 	api := router.Group("/api")
 	api.Use(
 		// these handlers are shared by the routes in the api group only
-		content.TypeNegotiator(content.JSON, content.XML),
+		content.TypeNegotiator(content.JSON),
 	)
-	api.Get(`/<arg:\d+>`, func(c *routing.Context) error {
+	api.Get(`/<arg>`, func(c *routing.Context) error {
     argument := &Arg{makePointArray(7), makePointArray(5)}
-    b, err := json.Marshal(argument)
+    data, err := json.Marshal(argument)
     if err != nil {
-      return c.Write("Error!")
-    } else {
-      return c.Write(string(b))
+      panic(err)
     }
+    c.Set("Content-Type", "application/json")
+    return c.Write(string(data))
 	})
 
-	// serve index file
-	router.Get("/", file.Content("public/index.html"))
 	// serve files under the "public" subdirectory
 	router.Get("/build/*", file.Server(file.PathMap{
 		"/build": "/public/build",
 	}))
+
+  // serve index file otherwise to allow
+  // for client-side routing
+  router.Get("/*", file.Content("public/index.html"))
 
 	http.Handle("/", router)
 	http.ListenAndServe(":8080", nil)

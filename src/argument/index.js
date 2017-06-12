@@ -29,8 +29,8 @@ export default class Argument extends React.Component {
 
   fetchArgument() {
     fetch('/api/' + this.props.match.params.id)
-      .then(res => res.json())
-      .then(data => this.setState({ data: data }))
+      .then(res => console.log(JSON.parse(res)))
+      // .then(data => this.setState({ data: data }))
   }
 
   renderCategories() {
