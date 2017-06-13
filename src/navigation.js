@@ -2,7 +2,7 @@ import React from 'react'
 import { FormGroup, FormControl, Button, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
-import { AuthButton } from './auth'
+import { AuthButton } from './auth/components'
 
 export default class Navigation extends React.Component {
   constructor(props) {

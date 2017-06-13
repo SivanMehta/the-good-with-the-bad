@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router'
 import Argument from './argument/'
 import Navigation from './navigation'
 import Point from './argument/single-point'
-import { Login, PrivateRoute } from './auth'
+import { Login, PrivateRoute } from './auth/components'
 
 const About = () => <p>Some really cool information</p>
 

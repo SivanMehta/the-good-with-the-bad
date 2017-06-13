@@ -9,25 +9,12 @@ import {
   withRouter
 } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
-
-// should actually be hitting server
-// but just have a simple button for now
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    this.isAuthenticated = true
-    setTimeout(cb, 100) // fake async
-  },
-  signout(cb) {
-    this.isAuthenticated = false
-    setTimeout(cb, 100)
-  }
-}
+import Status from './status'
 
 export const AuthButton = withRouter(({ history }) => (
-  fakeAuth.isAuthenticated ? (
+  Status.isUserAuthenticated() ? (
       <Button onClick={() => {
-        fakeAuth.signout(() => history.push('/'))
+        Status.deauthenticateUser(() => history.push('/'))
       }}>Sign out</Button>
   ) : (
     <Link to = '/login'>
@@ -38,7 +25,7 @@ export const AuthButton = withRouter(({ history }) => (
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render = {props => (
-    fakeAuth.isAuthenticated ? (
+    Status.isUserAuthenticated() ? (
       <Component {...props}/>
     ) : (
       <Redirect to={{
@@ -54,8 +41,9 @@ export class Login extends React.Component {
     redirectToReferrer: false
   }
 
-  login = () => {
-    fakeAuth.authenticate(() => {
+  login = (token) => {
+    token = 'lol' // can get this elsewhere for now
+    Status.authenticateUser(token, () => {
       this.setState({ redirectToReferrer: true })
     })
   }
