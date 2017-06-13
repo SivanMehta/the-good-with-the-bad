@@ -3,6 +3,17 @@
 
 /* global localStorage */
 
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  } else {
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}
+
+
 class Status {
   static tokenName = 'auth-token'
 
@@ -14,10 +25,17 @@ class Status {
    * @param {string} token
    */
   static authenticateUser (credentials, cb) {
-    var token = credentials.UserName + "|" + credentials.Password
-    token = btoa(token)
-    localStorage.setItem(this.tokenName, token)
-    setTimeout(cb, 100) // fake async
+    const token = credentials.Username + "|" + credentials.Password
+    fetch('/api/auth', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(credentials)
+    })
+      .then(checkStatus)
+      .then(() => btoa(token))
+      .then(token => localStorage.setItem(this.tokenName, token))
+      .then(() => cb(true))
+      .catch(error => this.deauthenticateUser(cb))
   }
 
   /**

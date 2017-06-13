@@ -34,15 +34,15 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export class Login extends React.Component {
   state = {
-    redirectToReferrer: false,
-    username: "",
-    password: ""
+    RedirectToReferrer: false,
+    Username: "",
+    Password: ""
   }
 
   login = (e) => {
     e.preventDefault()
-    Status.authenticateUser(this.state, () => {
-      this.setState({ redirectToReferrer: true })
+    Status.authenticateUser(this.state, (err = false) => {
+      this.setState({ RedirectToReferrer: !!err })
     })
   }
 
@@ -69,7 +69,7 @@ export class Login extends React.Component {
               <FormControl
                 type="text"
                 placeholder="Username"
-                onChange = { e => this.setState({username: e.target.value}) } />
+                onChange = { e => this.setState({Username: e.target.value}) } />
             </Col>
           </FormGroup>
 
@@ -81,7 +81,7 @@ export class Login extends React.Component {
               <FormControl
                 type="password"
                 placeholder="Password"
-                onChange = { e => this.setState({password: e.target.value}) } />
+                onChange = { e => this.setState({Password: e.target.value}) } />
             </Col>
           </FormGroup>
 
