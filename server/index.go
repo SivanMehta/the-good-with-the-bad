@@ -3,6 +3,7 @@ package main
 import (
   "log"
   "net/http"
+  "math/rand"
 
   "github.com/go-ozzo/ozzo-routing"
   "github.com/go-ozzo/ozzo-routing/access"
@@ -11,10 +12,8 @@ import (
 
   "github.com/icrowley/fake"
 
-  "math/rand"
+  "./chatbot"
 )
-
-import "./chatbot"
 
 type Point struct {
   Text string
@@ -51,7 +50,6 @@ func main() {
   api := router.Group("/api")
   api.Use(content.TypeNegotiator(content.JSON))
   api.Get(`/<arg>`, func(c *routing.Context) error {
-    log.Println(chatbot.Echo(c.Param("arg")))
     argument := &Arg{makePointArray(7), makePointArray(5)}
     return c.Write(argument)
   })
@@ -66,11 +64,15 @@ func main() {
     "/build": "/public/build",
   }))
 
+  // websocket connections
+  http.HandleFunc("/ws", chatbot.HandleConnections)
+  go chatbot.HandleMessages()
+
   // serve index file otherwise to allow
   // for client-side routing
   router.Get("/*", file.Content("public/index.html"))
-
   http.Handle("/", router)
+
   http.ListenAndServe(":8080", nil)
 }
 //

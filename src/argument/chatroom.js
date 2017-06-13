@@ -18,18 +18,17 @@ export default class Chatroom extends React.Component {
   }
 
   componentDidMount() {
-    this.socket = new WebSocket("ws://localhost:8081")
+    this.socket = new WebSocket('ws://' + window.location.host + '/ws')
 
     // Connection opened
     this.socket.addEventListener('open', (event) => {
       this.setState({connected: true})
-      this.socket.send('Hello Server!')
     })
 
     // Listen for message
     this.socket.addEventListener('message', (event) => {
       const data = JSON.parse(event.data)
-      this.setState({ history: data })
+      this.setState({ history: [data] })
     })
   }
 
@@ -43,15 +42,17 @@ export default class Chatroom extends React.Component {
 
   sendMessage(e) {
     e.preventDefault()
-    this.socket.send(this.state.message)
+    this.socket.send(JSON.stringify(
+      { Message: this.state.message, From: "Browser"}
+    ))
     this.setState({message: ""})
   }
 
   renderChat() {
     var history = this.state.history.map((m, i) => {
       return (
-        <ListGroupItem key = { 'message-' + i } header = {m.message}>
-          - { m.from }
+        <ListGroupItem key = { 'message-' + i } header = {m.Message}>
+          - { m.From }
         </ListGroupItem>
       )
     })
