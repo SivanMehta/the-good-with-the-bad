@@ -18,7 +18,7 @@ export const AuthButton = withRouter(({ history }) => (
   ) : (
       <NavItem title = "Account" id = "basic-nav-dropdown">
         <Link to = '/login'
-          style = {{"text-decoration": "none", "color": "#777"}}>
+          style = {{textDecoration: "none", "color": "#777"}}>
           Sign In <i className="fa fa-sign-in"></i>
         </Link>
       </NavItem>
