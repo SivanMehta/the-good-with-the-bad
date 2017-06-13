@@ -7,9 +7,10 @@ import (
   "log"
   "net/http"
   "github.com/gorilla/websocket"
+  "github.com/icrowley/fake"
 )
 
-var clients = make(map[*websocket.Conn]bool)
+var clients = make(map[*websocket.Conn]string)
 var broadcast = make(chan Message)
 var upgrader = websocket.Upgrader{}
 
@@ -25,10 +26,10 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
     log.Fatal(err)
   }
   // Make sure we close the connection when the function returns
-  // defer ws.Close()
+  defer ws.Close()
 
   // Register our new client
-  clients[ws] = true
+  clients[ws] = fake.UserName()
 
   for {
     var msg Message
@@ -40,6 +41,7 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
       break
     }
     // Send the newly received message to the broadcast channel
+    msg.From = clients[ws]
     broadcast <- msg
   }
 }
