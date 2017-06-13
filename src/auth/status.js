@@ -4,6 +4,8 @@
 /* global localStorage */
 
 class Status {
+  static tokenName = 'auth-token'
+
   /**
    * Authenticate a user. Save a token string in Local Storage
    * should actually be hitting server to check for validity,
@@ -11,8 +13,10 @@ class Status {
    *
    * @param {string} token
    */
-  static authenticateUser (token, cb) {
-    localStorage.setItem('token', token)
+  static authenticateUser (credentials, cb) {
+    var token = credentials.UserName + "|" + credentials.Password
+    token = btoa(token)
+    localStorage.setItem(this.tokenName, token)
     setTimeout(cb, 100) // fake async
   }
 
@@ -22,7 +26,7 @@ class Status {
    * @returns {boolean}
    */
   static isUserAuthenticated () {
-    return localStorage.getItem('token') !== null
+    return localStorage.getItem(this.tokenName) !== null
   }
 
   /**
@@ -30,7 +34,7 @@ class Status {
    *
    */
   static deauthenticateUser (cb) {
-    localStorage.removeItem('token')
+    localStorage.removeItem(this.tokenName)
     setTimeout(cb, 100) // fake async
   }
 
@@ -40,7 +44,7 @@ class Status {
    * @returns {string}
    */
   static getToken () {
-    return localStorage.getItem('token')
+    return localStorage.getItem(this.tokenName)
   }
 }
 

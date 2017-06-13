@@ -2,13 +2,9 @@
 // https://reacttraining.com/react-router/web/example/auth-workflow
 
 import React from 'react'
-import {
-  Route,
-  Redirect,
-  Link,
-  withRouter
-} from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Route, Redirect, Link, withRouter } from 'react-router-dom'
+import { Form, FormGroup, FormControl,
+  Col, ControlLabel, Button } from 'react-bootstrap'
 import Status from './status'
 
 export const AuthButton = withRouter(({ history }) => (
@@ -38,12 +34,14 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 export class Login extends React.Component {
   state = {
-    redirectToReferrer: false
+    redirectToReferrer: false,
+    username: "",
+    password: ""
   }
 
-  login = (token) => {
-    token = 'lol' // can get this elsewhere for now
-    Status.authenticateUser(token, () => {
+  login = (e) => {
+    e.preventDefault()
+    Status.authenticateUser(this.state, () => {
       this.setState({ redirectToReferrer: true })
     })
   }
@@ -60,8 +58,41 @@ export class Login extends React.Component {
 
     return (
       <div>
-        <p>You are not authenticated, click below to authenticate:</p>
-        <Button onClick={this.login}>Log in</Button>
+        <p>You are not authenticated, enter your password below to authenticate:</p>
+
+        <Form horizontal onSubmit = { this.login }>
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={2}>
+              Username
+            </Col>
+            <Col sm={10}>
+              <FormControl
+                type="text"
+                placeholder="Username"
+                onChange = { e => this.setState({username: e.target.value}) } />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={2}>
+              Password
+            </Col>
+            <Col sm={10}>
+              <FormControl
+                type="password"
+                placeholder="Password"
+                onChange = { e => this.setState({password: e.target.value}) } />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={2} sm={10}>
+              <Button type="submit" onClick = { this.login }>
+                Sign in
+              </Button>
+            </Col>
+          </FormGroup>
+        </Form>
       </div>
     )
   }
