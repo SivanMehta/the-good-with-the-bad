@@ -30,7 +30,6 @@ func HandleConnections(w http.ResponseWriter, r *http.Request) {
 
   // Register our new client
   clients[ws] = true
-  log.Println(clients)
 
   for {
     var msg Message
@@ -50,7 +49,6 @@ func HandleMessages() {
   for {
     // Grab the next message from the broadcast channel
     msg := <-broadcast
-    log.Println(msg)
     // Send it out to every client that is currently connected
     for client := range clients {
       err := client.WriteJSON(msg)
