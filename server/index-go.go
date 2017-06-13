@@ -35,23 +35,30 @@ func makePointArray(count int) []Point {
   return a
 }
 
+func fakePoint() Point {
+  return Point{fake.Sentence(), rand.Intn(100), fake.UserName()}
+}
+
 func main() {
   router := routing.New()
 
   // logging middleware
   router.Use(access.Logger(log.Printf))
 
+  // api definitions
   api := router.Group("/api")
-  api.Use(
-    // these handlers are shared by the routes in the api group only
-    content.TypeNegotiator(content.JSON)
-  )
+  api.Use(content.TypeNegotiator(content.JSON))
   api.Get(`/<arg>`, func(c *routing.Context) error {
     argument := &Arg{makePointArray(7), makePointArray(5)}
     return c.Write(argument)
   })
+  api.Get(`/<arg>/<point>`, func(c *routing.Context) error {
+    point := fakePoint()
+    point.Text = c.Param("arg")
+    return c.Write(point)
+  })
 
-  // serve files under the "public" subdirectory
+  // serve static files under the "public" subdirectory
   router.Get("/build/*", file.Server(file.PathMap{
     "/build": "/public/build",
   }))

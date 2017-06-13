@@ -13,9 +13,9 @@ export default class PointList extends React.Component {
   renderPoints() {
     const style = {
       width: "100%",
-      "white-space": "nowrap",
+      whiteSpace: "nowrap",
       overflow: "hidden",
-      "text-overflow": "ellipsis"
+      textOverflow: "ellipsis"
     }
     const renderPoint = (point, i) => (
       <ListGroupItem href = "#" key = { i + point.Text.slice(0, 3) }>
