@@ -6,6 +6,7 @@ import { browserHistory } from 'react-router'
 import Argument from './argument/'
 import Navigation from './navigation'
 import Point from './argument/single-point'
+import { Login, PrivateRoute } from './auth'
 
 const About = () => <p>Some really cool information</p>
 
@@ -15,8 +16,9 @@ render((
       <Navigation />
       <div className = 'container'>
         <Switch>
-          <Route path = "/argument/:id/:point" component = { Point } />
-          <Route path = "/argument/:id" component = { Argument } />
+          <PrivateRoute path = "/argument/:id/:point" component = { Point } />
+          <PrivateRoute path = "/argument/:id" component = { Argument } />
+          <Route path = "/login" component = { Login } />
           <Route exact path = "/" component = { About } />
         </Switch>
       </div>
