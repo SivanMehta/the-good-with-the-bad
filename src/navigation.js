@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormGroup, FormControl, Button, Navbar } from 'react-bootstrap'
+import { FormGroup, FormControl, Button,
+  Navbar, Nav } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 import { AuthButton } from './auth/components'
@@ -34,25 +35,29 @@ export default class Navigation extends React.Component {
           </Navbar.Brand>
         </Navbar.Header>
         <Navbar.Collapse>
-          <Navbar.Form pullRight>
-            <form onSubmit = {e => e.preventDefault()}>
-              <FormGroup validationState={this.getValidationState()}>
-                <FormControl
-                type="text"
-                value={this.state.target}
-                placeholder=""
-                onChange={this.updateLink} />
+          <Nav>
+            <Navbar.Form>
+              <form onSubmit = {e => e.preventDefault()}>
+                <FormGroup validationState={this.getValidationState()}>
+                  <FormControl
+                  type="text"
+                  value={this.state.target}
+                  placeholder=""
+                  onChange={this.updateLink} />
 
-              </FormGroup>
-              {' '}
-              <Link to = { '/argument/' + this.state.target }>
-                <Button type = 'submit'>
-                  Search
-                </Button>
-              </Link>
-              <AuthButton />
-            </form>
-          </Navbar.Form>
+                </FormGroup>
+                {' '}
+                <Link to = { '/argument/' + this.state.target }>
+                  <Button type = 'submit'>
+                    Search
+                  </Button>
+                </Link>
+              </form>
+            </Navbar.Form>
+          </Nav>
+          <Nav pullRight>
+            <AuthButton />
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     )

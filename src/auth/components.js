@@ -4,18 +4,24 @@
 import React from 'react'
 import { Route, Redirect, Link, withRouter } from 'react-router-dom'
 import { Form, FormGroup, FormControl,
-  Col, ControlLabel, Button } from 'react-bootstrap'
+         Col, ControlLabel, Button,
+         NavDropdown, NavItem, MenuItem } from 'react-bootstrap'
 import Status from './status'
 
 export const AuthButton = withRouter(({ history }) => (
   Status.isUserAuthenticated() ? (
-      <Button onClick={() => {
-        Status.deauthenticateUser(() => history.push('/'))
-      }}>Sign out</Button>
+    <NavItem onClick={() => {
+      Status.deauthenticateUser(() => history.push('/'))
+    }}>
+       Sign Out <i className="fa fa-sign-out"></i>
+    </NavItem>
   ) : (
-    <Link to = '/login'>
-      <Button>Sign In</Button>
-    </Link>
+      <NavItem title = "Account" id = "basic-nav-dropdown">
+        <Link to = '/login'
+          style = {{"text-decoration": "none", "color": "#777"}}>
+          Sign In <i className="fa fa-sign-in"></i>
+        </Link>
+      </NavItem>
   )
 ))
 
@@ -41,16 +47,16 @@ export class Login extends React.Component {
 
   login = (e) => {
     e.preventDefault()
-    Status.authenticateUser(this.state, (err = false) => {
-      this.setState({ RedirectToReferrer: !!err })
+    Status.authenticateUser(this.state, (err) => {
+      this.setState({ RedirectToReferrer: err })
     })
   }
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
+    const { RedirectToReferrer } = this.state
 
-    if (redirectToReferrer) {
+    if (RedirectToReferrer) {
       return (
         <Redirect to={from}/>
       )
