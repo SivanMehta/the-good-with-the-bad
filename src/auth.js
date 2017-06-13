@@ -5,8 +5,10 @@ import React from 'react'
 import {
   Route,
   Redirect,
+  Link,
   withRouter
 } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 // should actually be hitting server
 // but just have a simple button for now
@@ -24,13 +26,13 @@ const fakeAuth = {
 
 export const AuthButton = withRouter(({ history }) => (
   fakeAuth.isAuthenticated ? (
-    <p>
-      Welcome! <button onClick={() => {
+      <Button onClick={() => {
         fakeAuth.signout(() => history.push('/'))
-      }}>Sign out</button>
-    </p>
+      }}>Sign out</Button>
   ) : (
-    <p>You are not logged in.</p>
+    <Link to = '/login'>
+      <Button>Sign In</Button>
+    </Link>
   )
 ))
 
@@ -70,8 +72,8 @@ export class Login extends React.Component {
 
     return (
       <div>
-        <p>You have to be authenticated to see {from.pathname}</p>
-        <button onClick={this.login}>Log in</button>
+        <p>You are not authenticated, click below to authenticate:</p>
+        <Button onClick={this.login}>Log in</Button>
       </div>
     )
   }

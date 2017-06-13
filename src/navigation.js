@@ -1,7 +1,8 @@
 import React from 'react'
-
 import { FormGroup, FormControl, Button, Navbar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+
+import { AuthButton } from './auth'
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ export default class Navigation extends React.Component {
                   Search
                 </Button>
               </Link>
+              <AuthButton />
             </form>
           </Navbar.Form>
         </Navbar.Collapse>
