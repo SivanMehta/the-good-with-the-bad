@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "rm -rf public/dist/ && webpack --progress --watch",
-    "build": "rm -rf public/dist/ && webpack --progress",
-    "start": "node server/"
+    "build-client": "rm -rf public/dist/ && webpack --progress",
+    "build-server": "go build server/index.go",
+    "start": "./index"
   },
   "author": "Sivan Mehta",
   "license": "ISC",

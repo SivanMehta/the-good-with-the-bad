@@ -19,7 +19,6 @@ type Message struct {
 }
 
 func HandleConnections(w http.ResponseWriter, r *http.Request) {
-  log.Println("Connected User!")
   // Upgrade initial GET request to a websocket
   ws, err := upgrader.Upgrade(w, r, nil)
   if err != nil {
