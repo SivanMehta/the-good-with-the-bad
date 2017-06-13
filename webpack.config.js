@@ -26,10 +26,7 @@ module.exports = [
             /node_modules\//
           ],
           query: {
-            presets: [
-              require.resolve('babel-preset-es2015'),
-              require.resolve('babel-preset-react')
-            ]
+            presets:[ 'es2015', 'react', 'stage-2' ]
           }
         },
         {
