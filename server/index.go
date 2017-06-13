@@ -13,6 +13,7 @@ import (
   "github.com/icrowley/fake"
 
   "./chatbot"
+  "./auth"
 )
 
 type Point struct {
@@ -46,6 +47,12 @@ func main() {
   // logging middleware
   router.Use(access.Logger(log.Printf))
 
+  // serve static files under the "public" subdirectory
+  router.Get("/build/*", file.Server(file.PathMap{
+    "/build": "/public/build",
+    }))
+
+
   // api definitions
   api := router.Group("/api")
   api.Use(content.TypeNegotiator(content.JSON))
@@ -58,11 +65,8 @@ func main() {
     point.Text = c.Param("arg")
     return c.Write(point)
   })
-
-  // serve static files under the "public" subdirectory
-  router.Get("/build/*", file.Server(file.PathMap{
-    "/build": "/public/build",
-  }))
+  // authorization
+  api.Post("/auth", auth.Authorize)
 
   // websocket connections
   http.HandleFunc("/ws", chatbot.HandleConnections)
