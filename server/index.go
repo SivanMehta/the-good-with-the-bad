@@ -14,7 +14,6 @@ import (
 
   "./chat"
   "./auth"
-  "./database"
 )
 
 type Point struct {
@@ -52,9 +51,6 @@ func main() {
   router.Get("/build/*", file.Server(file.PathMap{
     "/build": "/public/build",
     }))
-
-  // connect to database
-  database.Initialize()
 
   // api definitions
   api := router.Group("/api")
