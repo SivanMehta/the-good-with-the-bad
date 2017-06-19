@@ -1,7 +1,7 @@
 // mostly adapted from:
 // https://scotch.io/bar-talk/build-a-realtime-chat-server-with-go-and-websockets
 
-package chatbot
+package chat
 
 import (
   "log"
@@ -17,6 +17,7 @@ var upgrader = websocket.Upgrader{}
 type Message struct {
   Message string
   From string
+  Room string
 }
 
 func HandleConnections(w http.ResponseWriter, r *http.Request) {

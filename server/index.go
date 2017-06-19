@@ -12,8 +12,9 @@ import (
 
   "github.com/icrowley/fake"
 
-  "./chatbot"
+  "./chat"
   "./auth"
+  "./database"
 )
 
 type Point struct {
@@ -52,6 +53,8 @@ func main() {
     "/build": "/public/build",
     }))
 
+  // connect to database
+  database.Initialize()
 
   // api definitions
   api := router.Group("/api")
@@ -70,8 +73,8 @@ func main() {
   api.Post("/auth", auth.Authorize)
 
   // websocket connections
-  http.HandleFunc("/ws", chatbot.HandleConnections)
-  go chatbot.HandleMessages()
+  http.HandleFunc("/ws", chat.HandleConnections)
+  go chat.HandleMessages()
 
   // serve index file otherwise to allow
   // for client-side routing
@@ -80,4 +83,3 @@ func main() {
 
   http.ListenAndServe(":8080", nil)
 }
-//

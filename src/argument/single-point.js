@@ -30,6 +30,7 @@ export default class Point extends React.Component {
   }
 
   renderPoint() {
+    const room = this.props.match.params.id + this.props.match.params.point
     return(
       <div>
         <blockquote className="blockquote">
@@ -38,7 +39,7 @@ export default class Point extends React.Component {
             { this.state.data.UserName}
           </footer>
         </blockquote>
-        <Chatroom room = { this.props.match.params } />
+        <Chatroom room = { room } />
       </div>
     )
   }

@@ -43,9 +43,11 @@ export default class Chatroom extends React.Component {
   sendMessage(e) {
     e.preventDefault()
     if (this.state.message.length > 0) {
-      this.socket.send(JSON.stringify(
-        { Message: this.state.message, From: "browser"}
-      ))
+      this.socket.send(JSON.stringify({
+          Message: this.state.message,
+          From: "browser",
+          Room: this.props.room
+        }))
       this.setState({message: ""})
     }
   }
