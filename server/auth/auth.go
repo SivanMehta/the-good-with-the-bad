@@ -28,6 +28,11 @@ func Register(c *routing.Context) error {
   errDecode := decoder.Decode(&user)
   if errDecode != nil { panic(errDecode) }
 
+  exists, _ := accounts.Has([]byte(user.Username), nil)
+  if(exists) {
+    return respond(c, 409, "Somebody beat you to it")
+  }
+
   accounts.Put([]byte(user.Username), []byte(user.Password), nil)
   return respond(c, 200, "Nice to Meet You!")
 }
