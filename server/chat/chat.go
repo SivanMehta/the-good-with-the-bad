@@ -8,7 +8,6 @@ import (
   "net/http"
   "github.com/gorilla/websocket"
   "github.com/icrowley/fake"
-  "github.com/syndtr/goleveldb/leveldb"
 )
 
 var clients = make(map[*websocket.Conn]string)
@@ -19,12 +18,6 @@ type Message struct {
   Message string
   From string
   Room string
-}
-
-func storeMessage(m Message) {
-  db, _ := leveldb.OpenFile("data/", nil)
-
-  db.Put([]byte(m.Room + m.From), []byte(m.Message), nil)
 }
 
 func HandleConnections(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +51,6 @@ func HandleMessages() {
   for {
     // Grab the next message from the broadcast channel
     msg := <-broadcast
-    storeMessage(msg)
     // Send it out to every client that is currently connected
     for client := range clients {
       err := client.WriteJSON(msg)

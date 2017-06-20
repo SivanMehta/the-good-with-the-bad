@@ -65,8 +65,8 @@ func main() {
     return c.Write(point)
   })
   // authorization
-  auth.Accounts["sivan"] = "secret"
-  api.Post("/auth", auth.Authorize)
+  auth.Populate()
+  api.Post("/login", auth.Authorize)
 
   // websocket connections
   http.HandleFunc("/ws", chat.HandleConnections)

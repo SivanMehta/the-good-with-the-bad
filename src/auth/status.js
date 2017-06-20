@@ -30,7 +30,7 @@ class Status {
       Username: credentials.Username,
       Password: credentials.Password
     }
-    fetch('/api/auth', {
+    fetch('/api/login', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(creds)
