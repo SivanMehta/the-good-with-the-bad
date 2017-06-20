@@ -21,6 +21,17 @@ func respond(c *routing.Context, header int, message string) error {
   return nil
 }
 
+func Register(c *routing.Context) error {
+  decoder := json.NewDecoder(c.Request.Body)
+
+  var user authorization
+  errDecode := decoder.Decode(&user)
+  if errDecode != nil { panic(errDecode) }
+
+  accounts.Put([]byte(user.Username), []byte(user.Password), nil)
+  return respond(c, 200, "Nice to Meet You!")
+}
+
 func Authorize(c *routing.Context) error {
   decoder := json.NewDecoder(c.Request.Body)
 
@@ -28,8 +39,7 @@ func Authorize(c *routing.Context) error {
   errDecode := decoder.Decode(&user)
   if errDecode != nil { panic(errDecode) }
 
-  authorized, errAuth := accounts.Has([]byte(user.Username), nil)
-  if errAuth != nil { panic(errAuth) }
+  authorized, _ := accounts.Has([]byte(user.Username), nil)
   if(authorized) {
     pass, _ := accounts.Get([]byte(user.Username), nil)
     if(string(pass) == user.Password) {
@@ -41,5 +51,6 @@ func Authorize(c *routing.Context) error {
 
 func Populate() {
   // populate with a bunch of fake accounts
-  accounts.Put([]byte("sivan"), []byte("secret"), nil)
+  err :=  accounts.Put([]byte("sivan"), []byte("secret"), nil)
+  if err != nil { panic(err) }
 }

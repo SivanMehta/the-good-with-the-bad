@@ -7,7 +7,7 @@ import { Jumbotron, Col, Row, Image } from 'react-bootstrap'
 import Argument from './argument/'
 import Navigation from './navigation'
 import Point from './argument/single-point'
-import { PrivateRoute, Login } from './auth/components'
+import { PrivateRoute, Login, Register } from './auth/components'
 import { About, NotFound } from './pages'
 
 render((
@@ -19,6 +19,7 @@ render((
           <PrivateRoute path = "/argument/:id/:point" component = { Point } />
           <PrivateRoute path = "/argument/:id" component = { Argument } />
           <Route path = "/login" component = { Login } />
+          <Route path = "/register" component = { Register } />
           <Route exact path = "/" component = { About } />
           <Route component = { NotFound } />
         </Switch>

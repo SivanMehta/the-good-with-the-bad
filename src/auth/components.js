@@ -38,9 +38,93 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
   )}/>
 )
 
+export class Register extends React.Component {
+  state = {
+    redirect: false,
+    Username: "",
+    Password: "",
+    alert: false
+  }
+
+  register = (e) => {
+    e.preventDefault()
+    Status.createUser(this.state, (success) => {
+      if(success) {
+        this.setState({ redirect: true })
+      } else {
+        this.setState({ alert: true })
+      }
+    })
+  }
+
+  render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirect } = this.state
+
+    if (redirect) {
+      return (
+        <Redirect to={ from }/>
+      )
+    }
+
+    const message = (
+      <p>
+        Enter your desired username and password to register and login.
+      </p>
+    )
+
+    const alert = this.state.alert ? (
+      <Alert bsStyle="warning" onDismiss = {() => this.setState({alert: false})}>
+        <h4>We could not register that username/combination</h4>
+        <p>It is probably taken by someone else, try something else instead!</p>
+      </Alert>
+    ) : ""
+
+    return(
+      <div>
+        { message }
+        <Form horizontal onSubmit = { this.register }>
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={2}>
+              Username
+            </Col>
+            <Col sm={10}>
+              <FormControl
+                type="text"
+                placeholder="Username"
+                onChange = { e => this.setState({Username: e.target.value}) } />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col componentClass={ControlLabel} sm={2}>
+              Password
+            </Col>
+            <Col sm={10}>
+              <FormControl
+                type="password"
+                placeholder="Password"
+                onChange = { e => this.setState({Password: e.target.value}) } />
+            </Col>
+          </FormGroup>
+
+          <FormGroup>
+            <Col smOffset={2} sm={10}>
+              <Button type="submit" onClick = { this.login }>
+                Sign Up
+              </Button>
+            </Col>
+          </FormGroup>
+        </Form>
+        { alert }
+      </div>
+    )
+  }
+}
+
 export class Login extends React.Component {
   state = {
-    RedirectToReferrer: false,
+    redirect: false,
     Username: "",
     Password: "",
     alert: false
@@ -50,7 +134,7 @@ export class Login extends React.Component {
     e.preventDefault()
     Status.authenticateUser(this.state, (success) => {
       if(success) {
-        this.setState({ RedirectToReferrer: success })
+        this.setState({ redirect: success })
       } else {
         this.setState({ alert: true })
       }
@@ -59,9 +143,9 @@ export class Login extends React.Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { RedirectToReferrer } = this.state
+    const { redirect } = this.state
 
-    if (RedirectToReferrer) {
+    if (redirect) {
       return (
         <Redirect to={from}/>
       )
@@ -70,7 +154,10 @@ export class Login extends React.Component {
     const message = Status.isUserAuthenticated() ? (
       <Redirect to={from}/>
     ) : (
-      <p> You are not authenticated, please enter your login and password </p>
+      <p>
+        You are not authenticated, please enter your login and password or
+        <Link to = '/register'> register</Link>.
+      </p>
     )
 
     const alert = this.state.alert ? (
@@ -117,7 +204,7 @@ export class Login extends React.Component {
             </Col>
           </FormGroup>
         </Form>
-        
+
         { alert }
       </div>
     )

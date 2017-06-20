@@ -55,6 +55,7 @@ func main() {
   // api definitions
   api := router.Group("/api")
   api.Use(content.TypeNegotiator(content.JSON))
+  // arguments and their points
   api.Get(`/<arg>`, func(c *routing.Context) error {
     argument := &Arg{makePointArray(7), makePointArray(5)}
     return c.Write(argument)
@@ -67,6 +68,7 @@ func main() {
   // authorization
   auth.Populate()
   api.Post("/login", auth.Authorize)
+  api.Post("/register", auth.Register)
 
   // websocket connections
   http.HandleFunc("/ws", chat.HandleConnections)

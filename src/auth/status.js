@@ -13,7 +13,6 @@ function checkStatus(response) {
   }
 }
 
-
 class Status {
   static tokenName = 'auth-token'
 
@@ -59,6 +58,27 @@ class Status {
     localStorage.removeItem(this.tokenName)
     cb(false)
   }
+
+  /**
+   * Tries to create a user
+   *
+   * @param state
+   * @param cb
+   */
+   static createUser(state, cb) {
+     const credentials = {
+       Username: state.Username,
+       Password: state.Password
+     }
+     fetch("/api/register", {
+       method: "POST",
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify(credentials)
+     })
+       .then(checkStatus)
+       .then(() => this.authenticateUser(credentials, cb))
+       .catch(() => cb(false))
+   }
 
   /**
    * Get a token value.
