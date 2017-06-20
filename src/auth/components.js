@@ -62,9 +62,15 @@ export class Login extends React.Component {
       )
     }
 
+    const message = Status.isUserAuthenticated() ? (
+      <Redirect to={from}/>
+    ) : (
+      <p> You are not authenticated, please enter your login and password </p>
+    )
+
     return (
       <div>
-        <p>You are not authenticated, enter your password below to authenticate:</p>
+        { message }
 
         <Form horizontal onSubmit = { this.login }>
           <FormGroup>
