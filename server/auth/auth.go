@@ -7,7 +7,6 @@ import (
 )
 
 type authorization struct {
-  RedirectToReferrer bool
   Username string
   Password string
 }

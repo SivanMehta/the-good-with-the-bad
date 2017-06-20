@@ -5,7 +5,7 @@ import React from 'react'
 import { Route, Redirect, Link, withRouter } from 'react-router-dom'
 import { Form, FormGroup, FormControl,
          Col, ControlLabel, Button,
-         NavDropdown, NavItem, MenuItem } from 'react-bootstrap'
+         NavDropdown, NavItem, MenuItem, Alert } from 'react-bootstrap'
 import Status from './status'
 
 export const AuthButton = withRouter(({ history }) => (
@@ -42,13 +42,18 @@ export class Login extends React.Component {
   state = {
     RedirectToReferrer: false,
     Username: "",
-    Password: ""
+    Password: "",
+    alert: false
   }
 
   login = (e) => {
     e.preventDefault()
-    Status.authenticateUser(this.state, (err) => {
-      this.setState({ RedirectToReferrer: err })
+    Status.authenticateUser(this.state, (success) => {
+      if(success) {
+        this.setState({ RedirectToReferrer: success })
+      } else {
+        this.setState({ alert: true })
+      }
     })
   }
 
@@ -67,6 +72,13 @@ export class Login extends React.Component {
     ) : (
       <p> You are not authenticated, please enter your login and password </p>
     )
+
+    const alert = this.state.alert ? (
+      <Alert bsStyle="danger" onDismiss = {() => this.setState({alert: false})}>
+        <h4>We do not recognize that username/password combination</h4>
+        <p>This is completely case-sensitive, so take care that you get everything right</p>
+      </Alert>
+    ) : ""
 
     return (
       <div>
@@ -105,6 +117,8 @@ export class Login extends React.Component {
             </Col>
           </FormGroup>
         </Form>
+        
+        { alert }
       </div>
     )
   }

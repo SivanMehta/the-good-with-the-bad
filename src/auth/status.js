@@ -26,10 +26,14 @@ class Status {
    */
   static authenticateUser (credentials, cb) {
     const token = credentials.Username + "|" + credentials.Password
+    const creds = {
+      Username: credentials.Username,
+      Password: credentials.Password
+    }
     fetch('/api/auth', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials)
+      body: JSON.stringify(creds)
     })
       .then(checkStatus)
       .then(() => btoa(token))
@@ -53,7 +57,7 @@ class Status {
    */
   static deauthenticateUser (cb) {
     localStorage.removeItem(this.tokenName)
-    setTimeout(cb, 100) // fake async
+    cb(false)
   }
 
   /**
