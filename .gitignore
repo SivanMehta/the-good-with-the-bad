@@ -1,4 +1,4 @@
-# Ignore all executables
+# Ignore everything, then add everything with an extension
 *
 !*.*
 !*/
@@ -7,5 +7,6 @@ node_modules/
 public/build/*
 *.log
 
+.DS_Store
 index
 data/

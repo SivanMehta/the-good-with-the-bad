@@ -88,6 +88,21 @@ class Status {
   static getToken () {
     return localStorage.getItem(this.tokenName)
   }
+
+  /**
+   * Get the username of the current user
+   *
+   * @returns {string}
+   */
+  static getUser() {
+    const token = this.getToken()
+    try {
+      const username = atob(token).split("|")[0]
+      return username
+    } catch (e) {
+      return null
+    }
+  }
 }
 
 export default Status

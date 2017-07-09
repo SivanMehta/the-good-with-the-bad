@@ -2,6 +2,8 @@ import React from 'react'
 import { ListGroup, ListGroupItem,
          FormControl, Button } from 'react-bootstrap'
 
+import Status from '../auth/status'
+
 export default class Chatroom extends React.Component {
   constructor(props) {
     super(props)
@@ -45,7 +47,7 @@ export default class Chatroom extends React.Component {
     if (this.state.message.length > 0) {
       this.socket.send(JSON.stringify({
           Message: this.state.message,
-          From: "browser",
+          From: Status.getUser(),
           Room: this.props.room
         }))
       this.setState({message: ""})

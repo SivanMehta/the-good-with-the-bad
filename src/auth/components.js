@@ -13,7 +13,7 @@ export const AuthButton = withRouter(({ history }) => (
     <NavItem onClick={() => {
       Status.deauthenticateUser(() => history.push('/'))
     }}>
-       Sign Out <i className="fa fa-sign-out"></i>
+       { Status.getUser() } | Sign Out <i className="fa fa-sign-out"></i>
     </NavItem>
   ) : (
       <NavItem title = "Account" id = "basic-nav-dropdown">
