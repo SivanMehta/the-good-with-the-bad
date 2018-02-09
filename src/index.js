@@ -1,29 +1,75 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import { browserHistory } from 'react-router'
-import { Jumbotron, Col, Row, Image } from 'react-bootstrap'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
-import Argument from './argument/'
-import Navigation from './navigation'
-import Point from './argument/single-point'
-import { PrivateRoute, Login, Register } from './auth/components'
-import { About, NotFound } from './pages'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-render((
-  <Router history={ browserHistory }>
+import { About } from './pages'
+
+const App = () => (
+  <Router>
     <div>
-      <Navigation />
-      <div className = 'container'>
-        <Switch>
-          <PrivateRoute path = "/argument/:id/:point" component = { Point } />
-          <PrivateRoute path = "/argument/:id" component = { Argument } />
-          <Route path = "/login" component = { Login } />
-          <Route path = "/register" component = { Register } />
-          <Route exact path = "/" component = { About } />
-          <Route component = { NotFound } />
-        </Switch>
-      </div>
+      <ul>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/topics">Topics</Link></li>
+      </ul>
+
+      <hr/>
+
+      <Route exact path="/" component={Home}/>
+      <Route path="/about" component={About}/>
+      <Route path="/topics" component={Topics}/>
     </div>
   </Router>
-), document.getElementById('root'))
+)
+
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+)
+
+const Topics = ({ match }) => (
+  <div>
+    <h2>Topics</h2>
+    <ul>
+      <li>
+        <Link to={`${match.url}/rendering`}>
+          Rendering with React
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/components`}>
+          Components
+        </Link>
+      </li>
+      <li>
+        <Link to={`${match.url}/props-v-state`}>
+          Props v. State
+        </Link>
+      </li>
+    </ul>
+
+    <Route path={`${match.url}/:topicId`} component={Topic}/>
+    <Route exact path={match.url} render={() => (
+      <h3>Please select a topic.</h3>
+    )}/>
+  </div>
+)
+
+const Topic = ({ match }) => (
+  <div>
+    <h3>{match.params.topicId}</h3>
+  </div>
+)
+
+render(
+  <MuiThemeProvider>
+    <App />
+  </MuiThemeProvider>,
+  document.getElementById('root'))

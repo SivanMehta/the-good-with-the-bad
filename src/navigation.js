@@ -1,9 +1,10 @@
 import React from 'react'
-import { FormGroup, FormControl, Button,
-  Navbar, Nav } from 'react-bootstrap'
+
+import AppBar from 'material-ui/AppBar';
+
 import { Link } from 'react-router-dom'
 
-import { AuthButton } from './auth/components'
+// import { AuthButton } from './auth/components'
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -27,6 +28,13 @@ export default class Navigation extends React.Component {
   }
 
   render() {
+    <AppBar
+      title="The Good with the Bad"
+      iconClassNameRight="muidocs-icon-navigation-expand-more"
+    />
+  }
+
+  render2() {
     return(
       <Navbar>
         <Navbar.Header>
