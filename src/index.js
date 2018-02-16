@@ -8,11 +8,13 @@ import {
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import Navigation from './navigation'
 import { About } from './pages'
 
 const App = () => (
   <Router>
     <div>
+      <Navigation />
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/about">About</Link></li>
